@@ -1,4 +1,5 @@
 from math import sqrt, pow
+import scipy.spatial
 
 
 class Classifier():
@@ -20,9 +21,10 @@ class Classifier():
 
 # Euclidean distance between two vectors
 def euclidean_distance(vec1, vec2):
+    # return scipy.spatial.distance.euclidean(X_train[j], X_test[i])
     distance = 0.0
     len_vec_1 = len(vec1)
-    for i in range(len_vec_1-1):
+    for i in range(len_vec_1):
         distance += pow((vec1[i] - vec2[i]), 2)
     euclidean_value = sqrt(distance)
     return euclidean_value
@@ -42,7 +44,7 @@ def _predict(self, X_test):
     for test_data in X_test:
         neighbors = find_neighbors(self.X_train, test_data, self.n_neighbors)
         y_neighbors = [self.y_train[i]
-                       for i in neighbors]  # get y value of neighbors
+                       for i in neighbors]  # get y_train value of neighbors
         # get a highest probability value
         prediction = max(y_neighbors, key=y_neighbors.count)
         predictions.append(prediction)
@@ -50,4 +52,9 @@ def _predict(self, X_test):
 
 
 def _score(predictions, y_test):
-    return (predictions == y_test).sum() / len(y_test) * 100.00
+    print('predictions ____________________')
+    for i in predictions:
+        print(i, end=' ')
+    count = (predictions == y_test).sum()
+    score = count / len(y_test)
+    return score * 100.00
