@@ -21,7 +21,6 @@ class Classifier():
 
 # Euclidean distance between two vectors
 def euclidean_distance(vec1, vec2):
-    # return scipy.spatial.distance.euclidean(X_train[j], X_test[i])
     distance = 0.0
     len_vec_1 = len(vec1)
     for i in range(len_vec_1):
@@ -52,9 +51,6 @@ def _predict(self, X_test):
 
 
 def _score(predictions, y_test):
-    print('predictions ____________________')
-    for i in predictions:
-        print(i, end=' ')
-    count = (predictions == y_test).sum()
-    score = count / len(y_test)
+    count_Similar = (predictions == y_test).sum()
+    score = count_Similar / len(y_test)
     return score * 100.00
