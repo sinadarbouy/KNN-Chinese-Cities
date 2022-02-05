@@ -1,4 +1,4 @@
-from Calculation import calculatedistance
+from Calculation import Calculation
 import scipy.spatial
 
 
@@ -21,18 +21,18 @@ class Classifier():
 
 
 # find neares neighbors
-def find_neighbors(self, train, test, n_neighbors):
-    distances = [(index_train_item, calculatedistance(self.metric, test, train_item))
+def find_neighbors(self, train, test):
+    distances = [(index_train_item, Calculation.calculatedistance(self.metric, test, train_item))
                  for index_train_item, train_item in enumerate(train)]
     distances.sort(key=lambda x: x[1])  # sort distances
-    neighbors = [i[0] for i in distances[:n_neighbors]]
+    neighbors = [i[0] for i in distances[:self.n_neighbors]]
     return neighbors
 
 
 def _predict(self, X_test):
     predictions = []
     for test_data in X_test:
-        neighbors = find_neighbors(self.X_train, test_data, self.n_neighbors)
+        neighbors = find_neighbors(self, self.X_train, test_data)
         y_neighbors = [self.y_train[i]
                        for i in neighbors]  # get y_train value of neighbors
         # get a highest probability value
