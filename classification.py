@@ -1,10 +1,11 @@
-from math import sqrt, pow
+from Calculation import calculatedistance
 import scipy.spatial
 
 
 class Classifier():
-    def __init__(self, n_neighbors):
+    def __init__(self, n_neighbors, metric):
         self.n_neighbors = n_neighbors
+        self.metric = metric
         pass
 
     def fit(self, x, y):
@@ -19,19 +20,9 @@ class Classifier():
         return _score(predictions, y_test)
 
 
-# Euclidean distance between two vectors
-def euclidean_distance(vec1, vec2):
-    distance = 0.0
-    len_vec_1 = len(vec1)
-    for i in range(len_vec_1):
-        distance += pow((vec1[i] - vec2[i]), 2)
-    euclidean_value = sqrt(distance)
-    return euclidean_value
-
-
 # find neares neighbors
-def find_neighbors(train, test, n_neighbors):
-    distances = [(index_train_item, euclidean_distance(test, train_item))
+def find_neighbors(self, train, test, n_neighbors):
+    distances = [(index_train_item, calculatedistance(self.metric, test, train_item))
                  for index_train_item, train_item in enumerate(train)]
     distances.sort(key=lambda x: x[1])  # sort distances
     neighbors = [i[0] for i in distances[:n_neighbors]]
